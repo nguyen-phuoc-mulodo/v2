@@ -28,7 +28,7 @@ class Simplecurl {
 		);
 		curl_setopt_array($ch, $options);
 
-		$response = curl_exec($ch);    
+		$response = curl_exec($ch);
 		curl_close($ch);    
 
 		return $response;

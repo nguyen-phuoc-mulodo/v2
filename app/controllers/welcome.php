@@ -1,5 +1,5 @@
 <?php namespace controllers;
-use core\view;
+use core\View;
 
 /*
  * Welcome controller

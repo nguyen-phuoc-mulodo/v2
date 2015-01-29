@@ -35,10 +35,10 @@ class Router {
 	 * @param   array @params
 	 */
 	public static function __callstatic($method, $params){
-
-		$uri = dirname($_SERVER['PHP_SELF']).'/'.$params[0];
+            
+                $uri = dirname($_SERVER['PHP_SELF']).'/'.$params[0];
 		$callback = $params[1];
-
+                
 		array_push(self::$routes, $uri);
 		array_push(self::$methods, strtoupper($method));
 		array_push(self::$callbacks, $callback);
@@ -72,7 +72,7 @@ class Router {
 		//grab all parts based on a / separator and collect the last index of the array
 		$last = explode('/',$callback);
 		$last = end($last);
-
+                
 		//grab the controller name and method call
 		$segments = explode('@',$last);                         
 
@@ -157,7 +157,7 @@ class Router {
 		$replaces = array_values(static::$patterns);
 
 		self::$routes = str_replace('//','/',self::$routes);   
-
+                
 		$found_route = false;
 
 		// parse query parameters
@@ -181,11 +181,10 @@ class Router {
 
 		// check if route is defined without regex
 		if (in_array($uri, self::$routes)) {
-			$route_pos = array_keys(self::$routes, $uri);
-
+			$route_pos = array_keys(self::$routes, $uri); // array type [2,]
 			// foreach route position
 			foreach ($route_pos as $route) {
-
+                                
 				if (self::$methods[$route] == $method || self::$methods[$route] == 'ANY') {
 					$found_route = true;
 
@@ -194,7 +193,7 @@ class Router {
 
 						//call object controller and method
 						self::invokeObject(self::$callbacks[$route]);
-						if (self::$halts) return;
+						if (self::$halts) return; // If there are many route with the same uri, prior for the first route.
 
 					} else { 
 
@@ -212,16 +211,17 @@ class Router {
 
 			// check if defined with regex
 			$pos = 0;
-
+//                        echo "<pre>";
+//                        print_r(self::$routes); exit;
 			// foreach routes
 			foreach (self::$routes as $route) {
-
+                            
 				$route = str_replace('//','/',$route);
-
+                                
 				if (strpos($route, ':') !== false) {
 					$route = str_replace($searches, $replaces, $route);
 				}
-
+                                
 				if (preg_match('#^' . $route . '$#', $uri, $matched)) {
 
 					if (self::$methods[$pos] == $method || self::$methods[$pos] == 'ANY') {
@@ -255,7 +255,7 @@ class Router {
 			//call the auto dispatch method
 			$found_route = self::autoDispatch();
 		}
-
+                
 		// run the error callback if the route was not found
 		if (!$found_route) {
 			if (!self::$error_callback) {

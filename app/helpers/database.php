@@ -41,12 +41,12 @@ class Database extends PDO{
 		
 		// ID for database based on the group information
 		$id = "$type.$host.$name.$user.$pass";
-		
+
 		// Checking if the same 
 		if(isset(self::$instances[$id])) {
 			return self::$instances[$id];
 		}
-		
+                
 		try {
 			// I've run into problem where
 			// SET NAMES "UTF8" not working on some hostings.
@@ -105,7 +105,7 @@ class Database extends PDO{
 			$stmt->bindValue(":$key", $value);
 		}
 
-		$stmt->execute();		
+		$stmt->execute();
 
 	}
 
